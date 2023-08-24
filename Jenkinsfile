@@ -96,7 +96,7 @@ stage('Deploiement en PROD') {
 
     when {
         expression {
-            return ${BRANCH_NAME} == 'master'
+            return ${env.BRANCH_NAME} == 'master'
         }
     }
             environment {
