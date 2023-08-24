@@ -4,6 +4,7 @@ DOCKER_ID = "jaobed" // replace this with your docker-id
 DOCKER_IMAGE_movieservice = "movieservice"
 DOCKER_IMAGE_castservice = "castservice"
 DOCKER_TAG = "v.${BUILD_ID}.0" // we will tag our images with the current build in order to increment the value by 1 with each new build
+BRANCH_NAME = "${BRANCH_NAME}"
 }
 agent any // Jenkins will be able to select all available agents
 stages {
