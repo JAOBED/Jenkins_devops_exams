@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: movie-db
+spec:
+  serviceName: movie-db-service
+  replicas: 1 # Adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: movie-db
+  template:
+    metadata:
+      labels:
+        app: movie-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:12.1-alpine
+          env:
+            - name: POSTGRES_USER
+              value: movie_db_username
+            - name: POSTGRES_PASSWORD
+              value: movie_db_password
+            - name: POSTGRES_DB
+              value: movie_db_dev
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: movie-db-pvc
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: movie-db-pvc
+          persistentVolumeClaim:
+            claimName: movie-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movie-db-service
+spec:
+  selector:
+    app: movie-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cast-db
+spec:
+  serviceName: cast-db-service
+  replicas: 1 # Adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: cast-db
+  template:
+    metadata:
+      labels:
+        app: cast-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:12.1-alpine
+          env:
+            - name: POSTGRES_USER
+              value: cast_db_username
+            - name: POSTGRES_PASSWORD
+              value: cast_db_password
+            - name: POSTGRES_DB
+              value: cast_db_dev
+          ports:
+            - containerPort: 5433
+          volumeMounts:
+            - name: cast-db-pvc
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: cast-db-pvc
+          persistentVolumeClaim:
+            claimName: cast-db-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cast-db-service
+spec:
+  selector:
+    app: cast-db
+  ports:
+    - protocol: TCP
+      port: 5433
+      targetPort: 5433
+
