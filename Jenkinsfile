@@ -4,7 +4,7 @@ DOCKER_ID = "jaobed" // replace this with your docker-id
 DOCKER_IMAGE_movieservice = "movieservice"
 DOCKER_IMAGE_castservice = "castservice"
 DOCKER_TAG = "v.${BUILD_ID}.0" // we will tag our images with the current build in order to increment the value by 1 with each new build
-BRANCH_NAME = "${BUILD_ID}"
+BRANCH_NAME = "${BRANCH_NAME}"
 }
 agent any // Jenkins will be able to select all available agents
 stages {
@@ -80,7 +80,7 @@ stage('Deploiement en staging'){
         KUBECONFIG = credentials("config") // we retrieve  kubeconfig from secret file called config saved on jenkins
         }
             steps {
-		echo "La valeur de BRANCH_NAME est : ${BRANCH_NAME}"
+		echo "La valeur de BRANCH_NAME est : $BRANCH_NAME"
                 script {
                 sh '''
                 cp ChartApp/valuesstaging.yaml valuesstaging.yaml
@@ -95,10 +95,11 @@ stage('Deploiement en staging'){
 
 stage('Deploiement en PROD') {
             when {
-                environment name: 'BRANCH_NAME', value: 'master'
+                environment name: "$BRANCH_NAME", value: 'master'
                  }
 
             environment {
+                // Définition des autres variables d'environnement
                 KUBECONFIG = credentials("config")
             }
             steps {
