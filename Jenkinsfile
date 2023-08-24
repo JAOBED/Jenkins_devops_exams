@@ -93,7 +93,7 @@ stage('Deploiement en staging'){
 
 stage('Deploiement en PROD') {
             when {
-                branch "master"
+                environment name: 'BRANCH_NAME', value: 'master'
                  }
 
             environment {
