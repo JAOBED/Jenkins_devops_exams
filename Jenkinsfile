@@ -103,6 +103,7 @@ stage('Deploiement en PROD') {
 
                 script {
                     sh '''
+		echo "Deploying to production from branch: ${BRANCH_NAME}"
                     cp ChartApp/valuesprod.yaml valuesprod.yaml
                     cat valuesprod.yaml
                     sed -i "s/v.00/\${DOCKER_TAG}/g" valuesprod.yaml
@@ -110,7 +111,6 @@ stage('Deploiement en PROD') {
                     '''
                 }
 
-		echo "Deploying to production from branch: ${BRANCH_NAME}"
             }
         }
 
