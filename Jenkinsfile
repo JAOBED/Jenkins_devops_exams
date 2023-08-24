@@ -109,6 +109,8 @@ stage('Deploiement en PROD') {
                     helm upgrade --install app ChartApp --values=valuesprod.yaml --namespace prod
                     '''
                 }
+
+		echo "Deploying to production from branch: ${BRANCH_NAME}"
             }
         }
 
