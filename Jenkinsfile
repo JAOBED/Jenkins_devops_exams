@@ -103,6 +103,7 @@ stage('Deploiement en PROD') {
 
                 script {
                     sh '''
+		def branchName = env.BRANCH_NAME  // Récupération de la valeur de BRANCH_NAME
 		echo "Deploying to production from branch: ${BRANCH_NAME}"
                     cp ChartApp/valuesprod.yaml valuesprod.yaml
                     cat valuesprod.yaml
