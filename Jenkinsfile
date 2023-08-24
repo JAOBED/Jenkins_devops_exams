@@ -94,9 +94,7 @@ stage('Deploiement en staging'){
         }
 
 stage('Deploiement en PROD') {
-            when {
-                environment name: "$BRANCH_NAME", value: 'master'
-                 }
+             when { branch 'master' }
 
             environment {
                 // Définition des autres variables d'environnement
