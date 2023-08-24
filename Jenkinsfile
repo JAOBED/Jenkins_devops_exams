@@ -80,7 +80,7 @@ stage('Deploiement en staging'){
         KUBECONFIG = credentials("config") // we retrieve  kubeconfig from secret file called config saved on jenkins
         }
             steps {
-		echo "La valeur de BRANCH_NAME est : $BRANCH_NAME"
+		echo "La valeur de BRANCH_NAME est : $DOCKER_TAG"
                 script {
                 sh '''
                 cp ChartApp/valuesstaging.yaml valuesstaging.yaml
