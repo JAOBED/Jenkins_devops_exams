@@ -55,6 +55,25 @@ stage('Deploiement en dev'){
             }
 
         }
+stage('Deploiement en QA'){
+        environment
+        {
+        KUBECONFIG = credentials("config") // we retrieve  kubeconfig from secret file called config saved on jenkins
+        }
+            steps {
+                script {
+                sh '''
+                cp ChartApp/valuesQA.yaml valuesQA.yaml
+                cat valuesQA.yaml
+                sed -i "s/v.00/\${DOCKER_TAG}/g" valuesQA.yaml
+                helm upgrade --install app ChartApp --values=valuesQA.yaml --namespace qa
+                '''
+                }
+            }
+
+        }
+
+
 
 }
 }
