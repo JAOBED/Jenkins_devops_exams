@@ -95,6 +95,7 @@ stage('Deploiement en PROD') {
             when {
                 branch "master"
                  }
+
             environment {
                 KUBECONFIG = credentials("config")
             }
