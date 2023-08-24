@@ -92,6 +92,11 @@ stage('Deploiement en staging'){
         }
 
 stage('Deploiement en PROD') {
+            when {
+               expression {
+                 return env.BRANCH_NAME == 'master'
+                          }
+                 }
             environment {
                 KUBECONFIG = credentials("config")
             }
