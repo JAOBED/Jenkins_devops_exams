@@ -91,5 +91,30 @@ stage('Deploiement en staging'){
 
         }
 
+stage('Deploiement en PROD') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'master'
+                }
+            }
+            environment {
+                KUBECONFIG = credentials("config")
+            }
+            steps {
+                timeout(time: 15, unit: "MINUTES") {
+                    input message: 'Do you want to deploy in production ?', ok: 'Yes'
+                }   
+
+                script {
+                    sh '''
+                    cp ChartApp/valuesprod.yaml valuesprod.yaml
+                    cat valuesprod.yaml
+                    sed -i "s/v.00/\${DOCKER_TAG}/g" valuesprod.yaml
+                    helm upgrade --install app ChartApp --values=valuesprod.yaml --namespace prod
+                    '''
+                }
+            }
+        }
+
 }
 }
