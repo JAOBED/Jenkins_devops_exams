@@ -48,7 +48,7 @@ stage('Deploiement en dev'){
                 sh '''
                 cp ChartApp/values.yaml values.yml
                 cat values.yml
-                sed -i "s/v.00/\${DOCKER_TAG}/g" values.yaml
+                sed -i "s/v.00/\${DOCKER_TAG}/g" values.yml
                 helm upgrade --install app ChartApp --values=values.yml --namespace dev
                 '''
                 }
